@@ -1,0 +1,151 @@
+seat_id,seat_name,sitting_member_id,sitting_party_id,state,region
+2,Deakin,2,2,Victoria,Eastern Melbourne
+3,Adelaide,4,3,South Australia,Central Adelaide
+4,Aston,6,3,Victoria,Eastern Melbourne
+5,Ballarat,8,3,Victoria,Central Victoria
+6,Banks,9,2,New South Wales,Southern Sydney
+7,Barker,10,2,South Australia,Eastern Rural
+8,Barton,12,3,New South Wales,Southern Sydney
+9,Bass,15,2,Tasmania,Launceston/North-Eastern
+10,Bean,16,3,Australian Capital Territory,Southern ACT
+11,Bendigo,19,3,Victoria,Central Victoria
+12,Bennelong,23,3,New South Wales,Northern Sydney
+13,Berowra,25,2,New South Wales,Northern Sydney
+14,Blair,27,3,Queensland,Outer Brisbane
+15,Blaxland,30,3,New South Wales,Western Sydney
+16,Bonner,32,8,Queensland,Inner Brisbane
+17,Boothby,35,3,South Australia,Southern Adelaide
+18,Bowman,37,8,Queensland,Souther Brisbane
+19,Braddon,39,2,Tasmania,North-Western
+20,Bradfield,44,2,New South Wales,North Shore
+21,Brand,47,3,Western Australia,Southern Perth
+22,Brisbane,49,9,Queensland,Inner Brisbane
+23,Bruce,52,3,Victoria,South-Eastern Melbourne
+24,Bullwinkel,56,-999,Western Australia,Eastern Perth/Avon Valley
+25,Burt,59,3,Western Australia,Southern Perth
+26,Calare,61,10,New South Wales,Central West
+27,Calwell,65,3,Victoria,Northern Melbourne
+28,Canberra,70,3,Australian Capital Territory,Central Canberra
+29,Canning,72,2,Western Australia,Southern Perth
+30,Capricornia,74,8,Queensland,Central Coastal
+31,Casey,77,2,Victoria,Outer Eastern Melbourne
+32,Chifley,81,3,New South Wales,Western Sydney
+33,Chisholm,82,3,Victoria,Eastern Melbourne
+34,Clark,84,10,Tasmania,Inner Hobart
+35,Cook,87,2,New South Wales,Southern Sydney
+36,Cooper,89,3,Victoria,Inner Northern Melbourne
+37,Corangamite,90,3,Victoria,Western Coastal
+38,Corio,92,3,Victoria,Geelong
+39,Cowan,93,3,Western Australia,Northern Perth
+40,Cowper,95,6,New South Wales,Mid North Coast
+41,Cunningham,98,3,New South Wales,Illawara
+42,Curtin,99,5,Western Australia,Western Perth
+43,Dawson,101,8,Queensland,Northern Coastal
+44,Dickson,103,8,Queensland,Northern Brisbane
+45,Dobell,107,3,New South Wales,Central Coast
+46,Dunkley,109,3,Victoria,South-Eastern Melbourne
+47,Durack,112,2,Western Australia,Northern Regional
+48,Eden-Monaro,114,3,New South Wales,South Coast
+49,Fadden,116,8,Queensland,Gold Coast
+50,Fairfax,118,8,Queensland,Sunshine Coast
+51,Farrer,121,2,New South Wales,Interior
+52,Fenner,123,3,Australian Capital Territory,Northern Canberra
+53,Fisher,124,8,Queensland,Sunshine Coast
+54,Flinders,126,2,Victoria,Southern Melbourne Fringe
+55,Flynn,128,8,Queensland,Central Coastal
+56,Forde,129,8,Queensland,Outer Southern Brisbane
+57,Forrest,131,2,Western Australia,South West
+58,Fowler,135,10,New South Wales,Western Sydney
+59,Franklin,137,3,Tasmania,Outer Hobart
+60,Fraser,140,3,Victoria,Western Melbourne
+61,Fremantle,143,3,Western Australia,Southern Perth
+62,Gellibrand,144,3,Victoria,Western Melbourne
+63,Gilmore,147,3,New South Wales,South Coast
+64,Gippsland,149,6,Victoria,East Gippsland
+65,Goldstein,151,5,Victoria,Southern Melbourne
+66,Gorton,154,3,Victoria,Northern Melbourne
+67,Grayndler,156,3,New South Wales,Inner Sydney
+68,Greenway,158,3,New South Wales,Western Sydney
+69,Grey,160,2,South Australia,Outback
+70,Griffith,162,9,Queensland,Inner Southern Brisbane
+71,Groom,164,8,Queensland,Darling Downs
+72,Hasluck,166,3,Western Australia,Eastern Perth
+73,Hawke,168,3,Victoria,Western Melbourne Fringe
+74,Herbert,172,8,Queensland,Townsville
+75,Hindmarsh,174,3,South Australia,Western Adelaide
+76,Hinkler,176,8,Queensland,Bundaberg
+77,Holt,177,3,Victoria,South-Eastern Melbourne
+78,Hotham,179,3,Victoria,South-Eastern Melbourne
+79,Hughes,181,2,New South Wales,Southern Sydney
+80,Hume,182,2,New South Wales,South-Eastern
+81,Hunter,183,3,New South Wales,Hunter Region
+82,Indi,186,5,Victoria,Northern Victoria
+83,Isaacs,189,3,Victoria,South-Eastern Melbourne
+84,Jagajaga,192,3,Victoria,Northern Melbourne
+85,Kennedy,195,12,Queensland,Far North/Interior
+86,Kingsford Smith,196,3,New South Wales,South-Eastern Sydney
+87,Kingston,198,3,South Australia,Southern Adelaide
+88,Kooyong,200,5,Victoria,Inner Eastern Melbourne
+89,Lalor,204,3,Victoria,Western Melbourne
+90,La Trobe,206,2,Victoria,Outer Eastern Melbourne
+91,Leichhardt,207,8,Queensland,Far North
+92,Lilley,210,3,Queensland,Inner Northern Brisbane
+93,Lindsay,211,2,New South Wales,Western Sydney
+94,Lingiari,212,3,Northern Territory,Alice Springs/Outback
+95,Longman,214,8,Queensland,Northern Brisbane
+96,Lyne,216,6,New South Wales,Central Coast
+97,Lyons,217,3,Tasmania,Central
+98,Macarthur,221,3,New South Wales,Western Sydney
+99,Mackellar,224,5,New South Wales,North Shore
+100,Macnamara,226,3,Victoria,Inner Southern Melbourne
+101,Macquarie,229,3,New South Wales,Western Sydney
+102,Makin,232,3,South Australia,Eastern Adelaide
+103,Mallee,234,6,Victoria,North-Western Victoria
+104,Maranoa,235,8,Queensland,Southern Interior
+105,Maribyrnong,236,3,Victoria,Western Melbourne
+106,Mayo,239,13,South Australia,Adelaide Hinterland
+107,McEwen,240,3,Victoria,Northern Melbourne Fringe
+108,McMahon,242,3,New South Wales,Western Sydney
+109,McPherson,244,8,Queensland,Gold Coast
+110,Melbourne,249,9,Victoria,Inner Melbourne
+111,Menzies,252,2,Victoria,Eastern Melbourne
+112,Mitchell,254,2,New South Wales,North Shore
+113,Monash,255,10,Victoria,West Gippsland
+114,Moncrieff,259,8,Queensland,Gold Coast
+115,Moore,260,10,Western Australia,Northern Perth
+116,Moreton,264,3,Queensland,Southern Brisbane
+117,Newcastle,267,3,New South Wales,Central Coast
+118,New England,270,6,New South Wales,North-Eastern
+119,Nicholls,271,6,Victoria,Rural Northern
+120,O'Connor,273,2,Western Australia,Southern Regional
+121,Oxley,274,3,Queensland,Western Brisbane
+122,Page,275,6,New South Wales,North Coast
+123,Parkes,277,6,New South Wales,Interior
+124,Parramatta,279,3,New South Wales,Western Sydney
+125,Paterson,282,3,New South Wales,Hunter Region
+126,Pearce,285,3,Western Australia,Perth Fringe
+127,Perth,287,3,Western Australia,Inner Perth
+128,Petrie,290,8,Queensland,Northern Brisbane
+129,Rankin,291,3,Queensland,Southern Brisbane
+130,Reid,292,3,New South Wales,Western Sydney
+131,Richmond,294,3,New South Wales,North Coast
+132,Riverina,297,6,New South Wales,Rural Southern
+133,Robertson,301,3,New South Wales,Central Coast
+134,Ryan,303,9,Queensland,Western Brisbane
+135,Scullin,307,3,Victoria,Northern Melbourne
+136,Shortland,310,3,New South Wales,Hunter Region
+137,Solomon,312,3,Northern Territory,Darwin/Palmerston
+138,Spence,314,3,South Australia,Northern Adelaide
+139,Sturt,316,2,South Australia,Eastern Adelaide
+140,Swan,320,3,Western Australia,Inner Perth
+141,Sydney,323,3,New South Wales,Inner Sydney
+142,Tangney,325,3,Western Australia,Southern Perth
+143,Wannon,327,2,Victoria,Western Victoria
+144,Warringah,329,5,New South Wales,Sydney North Shore
+145,Watson,331,3,New South Wales,Southern Sydney
+146,Wentworth,333,5,New South Wales,Eastern Sydney
+147,Werriwa,335,3,New South Wales,Southern Sydney
+148,Whitlam,337,3,New South Wales,Illawara
+149,Wide Bay,338,8,Queensland,Central Coast
+150,Wills,339,3,Victoria,Inner Northern Melbourne
+151,Wright,341,8,Queensland,South-Eastern

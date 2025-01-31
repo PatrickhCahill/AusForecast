@@ -1,0 +1,15 @@
+party_id,name,short_name,abbreviation,colour
+2,Liberal Party of Australia,Liberals,LP,blue
+3,Australian Labor Party,Labor,ALP,red
+4,One Nation Party,One Nation,ONP,orange
+5,Teal Independent,Teal,TIN,teal
+6,National Party of Australia,Nationals,NP,darkgreen
+7,Family First Party Australia,Family First,FF,
+8,Liberal National Partial,Liberal Nationals,LNP,blue
+9,Australian Greens,Greens,AG,green
+10,Independent,Independent,IND,grey
+11,Libertarian Party Australia,Libertarian,LBR,yellow
+12,Katter's Australian Party,Katter Party,KAP,brown
+13,Centre Alliance,Centre Alliance,CA,lightorange
+14,Country Liberal Party,Country Liberal,CLP,blue
+-999,No Party Yet,No Party Yet,NPY,black
