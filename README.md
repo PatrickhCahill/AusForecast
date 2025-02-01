@@ -18,3 +18,12 @@ To achieve that we will the following:
    * Observe vote matrix
 
 ## 2. The website (and data visualisation)
+
+   * Create interavtive bar chart graphics
+   * Create interactive parliament graphiscs
+      1. Requires parliament.svg in inkscape with id's
+      2. Convert to no_inkscape_parliament.svg
+      3. Fetch seats and modify colours by using d3 in js.
+      4. Embed in broader html.
+
+   * Unified design feel
