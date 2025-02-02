@@ -1,0 +1,16 @@
+# - name: Home
+#   link: /
+- name: Articles
+  link: /articles.html
+- name: Blog
+  link: /blog.html
+- name: Overview
+  link: /overview.html
+- name: House
+  link: /house.html
+- name: Senate
+  link: /senate.html
+- name: About
+  link: /about.html
+- name: Contact
+  link: /contact.html
