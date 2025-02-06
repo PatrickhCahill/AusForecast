@@ -1,6 +1,8 @@
 ---
 author: jill
 byline: apples are delicious.
+title: Why Australia has the best Electoral System in the World
+type: opinion
 ---
 An apple is a sweet, edible fruit produced by an apple tree.
 

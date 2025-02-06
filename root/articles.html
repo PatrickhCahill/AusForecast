@@ -1,13 +1,39 @@
 ---
 title: Articles
 ---
-<h1>Latest Articles</h1>
+<section class="normal-section-width section-padding">
+  <h1 class="main-page-title">Featured Articles</h1>
 
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-      {{ post.byline }}
-    </li>
-  {% endfor %}
-</ul>
+  {% include hero-3.html feature-url='2025/02/02/introducing.html' second-url='2025/02/02/electionUpdate.html' third-url='2025/02/02/bestElectoralSystem.html'%}
+</section>
+
+
+
+
+<!-- ABC's -->
+<section class="normal-section-width section-padding">
+  <h2 class="main-page-secondary">ABC's Of Australian Democracy</h2>
+  <p class="main-page-paragraph">This is a series of articles explaining the basic structure of our democracy. How is
+    the Prime Minister chosen? What does the senate do? This has the goal of making Australian democracy accessible to
+    all.</p>
+
+    {% include rounded-article-selection.html series='abc' %}
+</section>
+
+<!-- Forecast -->
+<section class="normal-section-width section-padding">
+<h2 class="main-page-secondary">Forecast Articles</h2>
+<p class="main-page-paragraph">This is a series of articles explaining the basic structure of our democracy. How is the
+  Prime Minister chosen? What does the senate do? This has the goal of making Australian democracy accessible to all.
+</p>
+{% include rounded-article-selection.html series='forecast' %}
+
+</section>
+
+<!-- Latest -->
+<section class="normal-section-width section-padding">
+  <h2 class="main-page-secondary">Latest Articles</h2>
+  <p class="main-page-paragraph">A list of our latest articles</p>
+
+  {% include latest-articles.html %}
+</section>

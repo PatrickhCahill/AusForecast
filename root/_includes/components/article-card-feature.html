@@ -1,0 +1,33 @@
+{% assign url = include.url | split: '/' | last %}
+{% for post in site.posts %}
+    {% assign post-url = post.url | split: '/' | last %}
+    {% if post-url == url %}
+        {% assign actual-feature = post %}
+    {% endif %}
+{% endfor %}
+
+{% case actual-feature.type %}
+{% when 'forecast' %}
+{% assign bg-color = '#474747' %}
+{% assign text-color = 'white' %}
+{% when 'explainer' %}
+{% assign bg-color = '#A8EADF' %}
+{% assign text-color = 'black' %}
+{% when 'opinion' %}
+{% assign bg-color = '#B22F6B' %}
+{% assign text-color = 'white' %}
+{% else %}
+{% assign bg-color = 'white' %}
+{% assign text-color = 'black' %}
+{% endcase %}
+
+
+<div class="hero-3-feature" style=" background-color: {{ bg-color }}" onclick="location.href='{{ actual-feature.url }}'">
+    <img src="/assets/images/parliamentphoto.png" alt="parliamentphoto" style="width: 100%;">
+    <div class="hero-3-text-container">
+            <h3 class="hero-3-title hero-3-title-feature" style="color: {{ text-color }}">{{
+                actual-feature.title }}</h3>
+            <p class="hero-3-byline">{{ actual-feature.byline }}</p>
+            <p class="hero-3-author">{{ actual-feature.author }}</p>
+    </div>
+</div>

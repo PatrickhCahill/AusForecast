@@ -1,0 +1,8 @@
+<div class="latest-articles">
+    {% for post in site.posts %}
+    <div style="max-width: 18em;">
+        {% include components/article-card-all.html url=post.url %}
+    </div>
+    {% endfor %}
+
+</div>

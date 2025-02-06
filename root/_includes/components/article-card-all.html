@@ -1,0 +1,32 @@
+{% for post in site.posts %}
+{% assign post_url = post.url | split: '/' | last %}
+{% assign include_url = include.url | split: '/' | last %}
+{% if post_url == include_url %}
+{% assign actual_post = post %}
+{% endif %}
+{% endfor %}
+
+{% case actual_post.type %}
+{% when 'forecast' %}
+    {% assign bg-color = '#474747' %}
+    {% assign text-color = 'white' %}
+{% when 'explainer' %}
+    {% assign bg-color = '#A8EADF' %}
+    {% assign text-color = 'black' %}
+{% when 'opinion' %}
+    {% assign bg-color = '#B22F6B' %}
+    {% assign text-color = 'white' %}
+{% else %}
+    {% assign bg-color = 'white' %}
+    {% assign text-color = 'black' %}
+{% endcase %}
+
+<div class="article-card-all" style="background-color: {{ bg-color }};" onclick="location.href='{{ actual_post.url }}'">
+<img src="/assets/images/parliamentphoto.png" alt="parliamentphoto" style="width: 100%;">
+<div class="article-card-all-text-container">
+<h3 class="article-card-all-title article-card-all-title-small" style="color: {{ text-color }}">{{ actual_post.title }}</h3>
+<p class="article-card-all-byline" style="color: {{ text-color }}">{{ actual_post.byline }}</p>
+<p class="article-card-all-author" style="color: {{ text-color }}">{{ actual_post.author }}</p>
+<p class="article-card-all-date" style="color: {{ text-color }}">{{ actual_post.date | date: "%d %b %Y" }}</p>
+</div>
+</div>

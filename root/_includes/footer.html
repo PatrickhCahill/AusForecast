@@ -1,0 +1,40 @@
+<!-- <footer style="background-color: #333; color: #ddd; height:10rem; font-family: 'Poppins', sans-serif; display: flex; align-items: center; justify-content: center;">
+  <div class="normal-section-width" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <p style="">&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+    <p style="">Contact us at: <a href="mailto:contact@example.com" style="color: #ddd;">contact@example.com</a></p>
+    <p style="">Follow us on <a href="https://github.com/yourusername" target="_blank" style="color: #ddd;">GitHub</a></p>
+    <p>Links: 
+      <a href="/" style="color: #ddd; margin-right: 1rem;">Home</a>
+      <a href="/overview.html" style="color: #ddd; margin-right: 1rem;">Overview</a>
+      <a href="/contact.html" style="color: #ddd; margin-right: 1rem;">Contact</a>
+      <a href="/articles.html" style="color: #ddd;">Articles</a>
+    </p>
+  </div>
+</footer>
+
+ -->
+
+
+ <footer class="footer">
+    <div class="footer-links">
+        <h4>Important Links</h4>
+        {% for item in site.data.navigation %}
+        <a href="{{ item.url }}">{{ item.name }}</a>
+        {% if forloop.last == false %}
+            |
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="footer-contact">
+        <h4>Quick Contact</h4>
+        <p>Email: info@example.com</p>
+    </div>
+
+    <div class="footer-social">
+        <h4>Follow Us</h4>
+        <a href="https://github.com/PatrickhCahill/AusForecast/">GitHub</a>
+    </div>
+
+    <div class="footer-copyright">
+        <p>&copy; 2025 Ourpreference. All rights reserved.</p>

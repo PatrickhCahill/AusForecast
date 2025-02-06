@@ -1,0 +1,40 @@
+{% for post in site.posts %}
+    {% assign post_url = post.url | split: '/' | last %}
+    {% assign include_url = include.url | split: '/' | last %}
+    {% if post_url == include_url %}
+        {% assign actual_post = post %}
+    {% endif %}
+{% endfor %}
+{% case actual_post.type %}
+    {% when 'forecast' %}
+    {% assign accent-color = 'white' %}
+    {% when 'explainer' %}
+    {% assign accent-color = '#A8EADF' %}
+    {% when 'abc' %}
+    {% assign accent-color = 'white' %}
+{% endcase %}
+
+
+
+<div class="feature-member" >
+    <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; width: 100%;">
+        <div style="width: 100%; height: 66%; margin: 0; padding: 0;background-image: url(/assets/images/parliamentphoto.png); background-size: cover; background-position: 10px;"></div>
+        <div style="width: 100%; height: 34%; margin: 0; padding: 0; background-color: {{ accent-color }}">
+            <div style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;">
+                <div style="
+                    width: 95%;
+                    margin: 0 auto;
+                    line-height: 1; /* new */
+                "><h2 class="feature-title" style="margin-bottom: 0; text-align: center;">{{ actual_post.title }}</h2><p class="feature-byline" style="margin-top: 0; text-align: left;">{{ actual_post.byline }}</p>
+                </div>
+            </div>
+            <!-- <p class="feature-author">{{ actual_post.author }}</p> -->
+        </div>
+    </div>
+
+
+</div>

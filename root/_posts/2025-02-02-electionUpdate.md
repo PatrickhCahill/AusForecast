@@ -1,6 +1,8 @@
 ---
 author: ted
 byline: kiwifruit are yuck
+type: normal
+title: Election Update 2-Feb-2025
 ---
 Kiwifruit (often abbreviated as kiwi), or Chinese gooseberry is the
 edible berry of several species of woody vines in the genus Actinidia.

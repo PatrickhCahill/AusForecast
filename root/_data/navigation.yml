@@ -2,8 +2,6 @@
 #   link: /
 - name: Articles
   link: /articles.html
-- name: Blog
-  link: /blog.html
 - name: Overview
   link: /overview.html
 - name: House

@@ -1,0 +1,34 @@
+
+
+
+
+
+
+<div class="rounded-articles-wrapper">
+    <div class="rounded-articles-container">
+      {% for post in site.posts %}
+    
+      {% if post.series == include.series %}
+        {% case post.type %}
+            {% when 'forecast' %}
+                {% assign bg-color = '#474747' %}
+                {% assign text-color = 'white' %}
+            {% when 'explainer' %}
+                {% assign bg-color = '#A8EADF' %}
+                {% assign text-color = 'black' %}
+            {% when 'opinion' %}
+                {% assign bg-color = '#B22F6B' %}
+                {% assign text-color = 'white' %}
+            {% else %}
+                {% assign bg-color = 'white' %}
+                {% assign text-color = 'black' %}
+        {% endcase %}
+      <div class="rounded-article" style="background-color: {{ bg-color }};" onclick="location.href='{{ post.url }}'">
+        <h3 class="rounded-article-title"><a href="{{ post.url }}" style="color: {{ text-color }}">{{ post.title }}</a></h3>
+        <p class="rounded-article-byline" style="color: {{ text-color }}">{{ post.byline }}</p>
+      </div>
+      {% endif %}
+
+      {% endfor %}
+    </div>
+  </div>

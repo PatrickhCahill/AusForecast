@@ -1,6 +1,8 @@
 ---
-author: jill
-byline: Bananas are superfood :)
+author: Patrick Cahill
+byline: A new data-driven website with coverage of Australian politics, and the upcoming federal election
+title: Introducing Our preference
+type: explainer
 ---
 
 A banana is an edible fruit – botanically a berry – produced by several

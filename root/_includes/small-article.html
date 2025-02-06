@@ -1,0 +1,12 @@
+{% for post in site.posts %}
+    {% assign post_url = post.url | split: '/' | last %}
+    {% assign include_url = include.url | split: '/' | last %}
+    {% if post_url == include_url %}
+        {% assign actual_post = post %}
+    {% endif %}
+{% endfor %}
+<div class="feature-member" style="height:48%" >
+    <h2><a href="{{ actual_post.url }}">{{ actual_post.title }}</a></h2>
+    <p>{{ actual_post.byline }}</p>
+    <p>{{ actual_post.author }}</p>
+</div>

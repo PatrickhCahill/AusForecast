@@ -1,5 +1,33 @@
-<nav>
-    {% for item in site.data.navigation %}
-      <a href="{{ item.link }}"{% if page.url == item.link %} class="current"{% endif %}>{{ item.name }}</a>
-    {% endfor %}
-  </nav>
+<script src="assets/js/navigation.js" defer></script>
+<header class="header-fixed" id="header">
+  <div class="normal-section-width">
+    <div class="logo-and-button" id="logo-and-button">
+      <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-controls="primary-navigation"
+        aria-expanded="false"><span class="sr-only">Menu</span></button>
+      <a href="/"><img src="/assets/images/default-logo.svg" alt="Logo" class="nav-logo" id="nav-logo"></a>
+    </div>
+
+    <hr class="nav-hr">
+
+    <nav>
+      <ul id="primary-navigation" data-visible="false" class="primary-navigation">
+        {% for item in site.data.navigation %}
+        <li class="primary-navigation-li">
+          {% if page.url==item.link %}
+          <a href="{{ item.link }}" class="nav-link nav-link-active">{{ item.name }}</a>
+          <a href="{{ item.link }}"><img src="assets/images/nav-arrow-lightgrey.svg"
+              class="nav-arrow nav-arrow-active" /></a>
+          {% else %}
+          <a href="{{ item.link }}" class="nav-link">{{ item.name }}</a>
+          <a href="{{ item.link }}"><img src="assets/images/nav-arrow-lightgrey.svg" class="nav-arrow" /></a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    <hr class="nav-hr">
+  </div>
+</header>
+<div id="space-for-header">
+
+</div>
