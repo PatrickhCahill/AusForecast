@@ -1,6 +1,2 @@
 pseudosupport/dop_data
 pseudosupport/tcp_flow_data
-
-modelCode/raw/distributions/* ! modelCode/raw/distributions/.gitkeep
-modelCode/raw/primaries/* ! modelCode/raw/primaries/.gitkeep
-modelCode/raw/tcpflows/* ! modelCode/raw/tcpflows/.gitkeep
