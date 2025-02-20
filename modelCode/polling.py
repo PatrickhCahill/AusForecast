@@ -5,16 +5,7 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.structural import UnobservedComponents
 from tqdm import tqdm
 
-## TO DO HANDLE ELECTION DAY SUPPORT ESTIMATE.
-
-## FOR ONES WHERE ELECTION DATA ALREADY EXISTS RENAME UND to OTH. WITH POLLS CONVERT UND TO OTH.
-
-## THIS REQUIRES INTERMEDIATE DATA HANDLING STAGE BEFORE THE KALMAN FILTER
-
-## FOR OTHER VALUES WE WILL EXTRACT FROM THE 2022 AES ESTIMATES FOR EACH OF THE VALUES.
-## THIS WILL GIVES US PRIMARY VOTES. FROM THERE WE ESTIMATE THE TPP WITH TRENDS FROM 2022.
-## THIS WILL GIVES US THE ROWS FOR EACH OF THE POLLING DATA VARIABLES.
-## THIS CAN THEN BE FED INTO THE POLLING MODEL
+## SHIFT DEMOGRAPHIC DATA SWINGS TO MATCH NATIONAL SWING.
 
 ## ALSO NEED TO DEVELOP A CORRELATION MATRIX BETWEEN THE SWINGS IN THE VARIABLES -- COULD BE HIGH?
         ## THIS IS MOSTLY TO AVOID WASHOUTS IN THE SWING ESTIMATES.
@@ -36,8 +27,29 @@ def fixtpp(row):
     elif not np.isnan(row["L-NP 2pp"]):
         outrow["L-NP 2pp"] = outrow["L-NP 2pp"]
 
-    outrow[columns_of_interest] = outrow[columns_of_interest]/100
+    outrow[parties] = outrow[parties]/100
     return outrow
+
+def fixtpp2022(row): 
+    outrow = row.copy()
+    # if not np.isnan(row["UND r/a"]):
+    #     outrow["ALP r/a"] = row["ALP r/a"]/(row["ALP r/a"] + row["L-NP r/a"])*100
+    #     outrow["L-NP r/a"] = row["L-NP r/a"]/(row["ALP r/a"] + row["L-NP r/a"])*100
+
+
+    if np.isnan(row["ALP 2pp"]) and not np.isnan(outrow["ALP r/a"]):
+        outrow["ALP 2pp"] = row["ALP r/a"]/(row["ALP r/a"] + row["L-NP r/a"])*100
+    elif not np.isnan(row["ALP 2pp"]):
+        outrow["ALP 2pp"] = outrow["ALP 2pp"]
+    if np.isnan(row["L-NP 2pp"]) and not np.isnan(outrow["L-NP r/a"]):
+        outrow["L-NP 2pp"] = row["L-NP 2pp"]/(row["ALP r/a"] + row["L-NP r/a"])*100
+    elif not np.isnan(row["L-NP 2pp"]):
+        outrow["L-NP 2pp"] = outrow["L-NP 2pp"]
+
+    outrow[parties] = outrow[parties]/100
+    return outrow
+
+
 
 def kalman_drive(xold,Pold,F,Q):
     xnew = F @ xold
@@ -66,6 +78,10 @@ def kalman_update(y,xprior:np.array, Pprior:np.array,H:np.array,R):
     return xpost,Ppost,yhat_post
 
 def kalman_run(timestamps,ys,Rs,x0,P0,F,Q,H):
+    if np.any(timestamps<np.datetime64("2022-05-22")):
+        start_date = np.datetime64("2019-05-18")
+    else:
+        start_date=np.datetime64('2022-05-22')
     x = x0.copy()
     P = P0.copy()
 
@@ -73,7 +89,7 @@ def kalman_run(timestamps,ys,Rs,x0,P0,F,Q,H):
     Xhistory = [x]
     Phistory = [ P]
 
-    for date in pd.date_range(np.datetime64('2022-05-22'),np.datetime64('2025-05-22'), freq='D')[1:]:
+    for date in pd.date_range(start_date,np.datetime64('2025-05-22'), freq='D')[1:]:
         x, P = kalman_drive(x,P,F,Q)
         
         yhat_post = None
@@ -91,7 +107,7 @@ def kalman_run(timestamps,ys,Rs,x0,P0,F,Q,H):
         Yhat_history.append(yhat_post.item())
         Phistory.append(P)
 
-    ts = pd.date_range(np.datetime64('2022-05-22'),np.datetime64('2025-05-22'))
+    ts = pd.date_range(start_date,np.datetime64('2025-05-22'))
     return ts, Yhat_history,Xhistory,Phistory
 
 def estimate_Q(X:list,F:np.array):
@@ -104,22 +120,30 @@ if __name__ == "__main__":
     abspath = os.path.abspath(__file__)
     dname = os.path.dirname(abspath)
     os.chdir(dname)
+    max_iter_EM = 100
 
-    polling_data_dir = os.listdir("polling_data")
-    columns_of_interest = ['ALP', 'LNC', 'GRN', 'PHON', 'UND', 'ALP 2pp', 'L-NP 2pp']
-    out_df = pd.DataFrame(index=[os.path.splitext(filename)[0] for filename in polling_data_dir])
+    polling_data_states = ['national.csv', 'nsw.csv', 'qld.csv', 'sa.csv', 'tas.csv', 'victoria.csv', 'wa.csv']
 
-    for file in tqdm(polling_data_dir):
+
+
+    polling_files_demographics = ['100to150k.csv', '150kplus.csv', '18to34.csv', '35to49.csv', '50to64.csv', '50to99k.csv', '65plus.csv', 'christian.csv', 'englishonly.csv', 'female.csv', 'male.csv', 'nonenglish.csv', 'noreligion.csv', 'notertiary.csv', 'tafe.csv', 'university.csv', 'upto50k.csv', ]
+    
+
+    parties = ['ALP', 'LNC', 'GRN', 'PHON', 'UND', 'ALP 2pp', 'L-NP 2pp']
+    out_df = pd.DataFrame(index=
+                        [os.path.splitext(filename)[0] for filename in (polling_data_states+polling_files_demographics)])
+
+    for file in tqdm(polling_data_states):
         # if file != "female.csv":
         #     continue
         polling_data = pd.read_csv(f"polling_data/{file}").apply(fixtpp,axis=1)
-        election_day = polling_data.loc[0].copy()
+        election_day = polling_data[polling_data["Pollster"]=="Election"].iloc[0].copy()
         polling_data = polling_data.drop(0,axis=0) # Drop the election day data
         polling_data = polling_data.reset_index()
 
 
 
-        for party in tqdm(columns_of_interest,leave=False):
+        for party in tqdm(parties,leave=False):
             # if party != "ALP 2pp":
                 # continue
             timestamps = pd.to_datetime(polling_data.loc[~polling_data[party].isna(),"End Date"]).to_numpy()
@@ -140,7 +164,7 @@ if __name__ == "__main__":
             H = np.array([1,0]).reshape(1,-1)
 
             Q = np.diag([0.0005**2,0.00005**2])
-            for _ in tqdm(range(1),leave=False):
+            for _ in tqdm(range(max_iter_EM),leave=False):
 
                 ts, Yhat_history,Xhistory,Phistory = kalman_run(timestamps,ys,Rs,x0,Q,F,Q,H)
                 Qprev = Q.copy()
@@ -174,20 +198,94 @@ if __name__ == "__main__":
 
 
             out_df.loc[os.path.splitext(file)[0],party]=Yadjusted[-1]
-            out_df.loc[os.path.splitext(file)[0],f"{party}_std"]=Sadjusted[-1]
+            out_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[-1])
+    
+    for file in tqdm(polling_files_demographics):
+        # if file != "noreligion.csv":
+        #     continue
+        polling_data = pd.read_csv(f"polling_data/{file}").apply(fixtpp,axis=1)
+        polling_data_2022 = pd.read_csv(f"polling_data2022/{file}").apply(fixtpp2022,axis=1)
+        polling_data = pd.concat([polling_data_2022,polling_data],axis=0)
+        polling_data = polling_data.reset_index()
+
+        for party in tqdm(parties,leave=False):
+            # if party != "ALP 2pp":
+            #     continue
+            timestamps = pd.to_datetime(polling_data.loc[~polling_data[party].isna(),"End Date"],format="%b %d, %Y").to_numpy()
+            ys = polling_data.loc[~polling_data[party].isna(),party].to_numpy()
+            sample_size = polling_data.loc[~polling_data[party].isna(),"Sample"].replace({',': ''}, regex=True).astype(int).to_numpy()
+            Rs = ys * (1-ys) / sample_size
+        
+            x0 = np.array([0,0]).reshape(-1,1) # [local value, local trend]
+            F = np.array([[1,1], # u_t+1 = u_t + delta_t (+ noise)
+                        [0,1]]) # delta_t+1 = delta_t (+ noise)
+            # F = np.array([[1,1,0, 0, 0, 0],
+            #               [0,1,0,-1,-1,-1],
+            #               [0,0,-1,0,-1,-1],
+            #               [0,0,-1,-1,0,-1],
+            #               [0,0,-1,-1,-1,0]]) ## --- This is for a seasonal model ##
+            
+            H = np.array([1,0]).reshape(1,-1)
+
+            Q = np.diag([0.0005**2,0.00005**2])
+            for _ in tqdm(range(max_iter_EM),leave=False):
+
+                ts, Yhat_history,Xhistory,Phistory = kalman_run(timestamps,ys,Rs,x0,Q,F,Q,H)
+                Qprev = Q.copy()
+                Q = estimate_Q(Xhistory,F)
+                if np.linalg.norm(Q-Qprev)<1e-8:
+                    break
+            
+                
+            Xadjusted = []
+            Padjusted = []
+            for idx,(X,P) in enumerate([i for i in zip(Xhistory,Phistory)][::-1]):
+                if idx ==0:
+                    Xadjusted.append(X)
+                    Padjusted.append(P)
+                else:
+                    Xgiven_n = Xadjusted[-1]
+                    Pgiven_n = Padjusted[-1]
+
+                    xgiven_idx = F @ X
+                    Pgiven_idx = F @ P @ F.T + Q
+                    try:
+                        Cidx = P @ F.T @ np.linalg.inv(Pgiven_idx)
+                    except np.linalg.LinAlgError as e:
+                        Cidx = P @ F.T @ np.linalg.pinv(Pgiven_idx)
+
+                    Xadjusted.append(X + Cidx @ (Xgiven_n - xgiven_idx))
+                    Padjusted.append(P + Cidx @ (Pgiven_n - Pgiven_idx) @ Cidx.T)
+
+            Yadjusted = [(H @ Xadj).item() for Xadj in Xadjusted][::-1]
+            Sadjusted = [(H @ Padj @ H.T).item() for Padj in Padjusted][::-1]
+
+            election_date = ts.get_loc(pd.Timestamp("2022-05-22"))
+
+
+
+
+
+            out_df.loc[os.path.splitext(file)[0],party]=(Yadjusted[election_date]-Yadjusted[-1])
+            out_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[election_date]+Sadjusted[-1])
+    
+    out_df.to_csv("polling_estimates2025.csv")
     print(out_df)
 
-    # plt.plot(ts,Yadjusted)
+    # plot_ts = np.where(ts>=np.datetime64("2022-05-22"))[0]
+
+    # plot_timestamps = np.where(timestamps>=np.datetime64("2022-05-22"))[0]
+    # plt.plot(ts[plot_ts],np.array(Yadjusted)[plot_ts])
 
     # ylower = np.array(Yadjusted) - np.sqrt(np.array(Sadjusted))*1.96
     # yupper = np.array(Yadjusted) + np.sqrt(np.array(Sadjusted))*1.96
 
-    # plt.fill_between(ts,ylower,yupper,color=(0.1, 0.2, 0.5, 0.3))
-    # plt.scatter(timestamps,ys,sample_size/max(sample_size)*100)
+    # plt.fill_between(ts[plot_ts],ylower[plot_ts],yupper[plot_ts],color=(0.1, 0.2, 0.5, 0.3))
+    # plt.scatter(timestamps[plot_timestamps],ys[plot_timestamps],sample_size[plot_timestamps]/max(sample_size[plot_timestamps])*100)
     # plt.show()
 
     # Xhistory = np.array(Xhistory)
-    # plt.plot(ts,Xhistory[:,1])
+    # plt.plot(ts[plot_ts],Xhistory[plot_ts][:,1])
     # plt.show()
 
 
