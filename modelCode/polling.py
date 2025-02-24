@@ -49,8 +49,6 @@ def fixtpp2022(row):
     outrow[parties] = outrow[parties]/100
     return outrow
 
-
-
 def kalman_drive(xold,Pold,F,Q):
     xnew = F @ xold
     Pnew = F @ Pold @ F.T + Q
@@ -120,24 +118,27 @@ if __name__ == "__main__":
     abspath = os.path.abspath(__file__)
     dname = os.path.dirname(abspath)
     os.chdir(dname)
-    max_iter_EM = 100
+    max_iter_EM = 200
 
     polling_data_states = ['national.csv', 'nsw.csv', 'qld.csv', 'sa.csv', 'tas.csv', 'victoria.csv', 'wa.csv']
-
-
-
     polling_files_demographics = ['100to150k.csv', '150kplus.csv', '18to34.csv', '35to49.csv', '50to64.csv', '50to99k.csv', '65plus.csv', 'christian.csv', 'englishonly.csv', 'female.csv', 'male.csv', 'nonenglish.csv', 'noreligion.csv', 'notertiary.csv', 'tafe.csv', 'university.csv', 'upto50k.csv', ]
     
 
     parties = ['ALP', 'LNC', 'GRN', 'PHON', 'UND', 'ALP 2pp', 'L-NP 2pp']
-    out_df = pd.DataFrame(index=
+    swings2025_df = pd.DataFrame(index=
                         [os.path.splitext(filename)[0] for filename in (polling_data_states+polling_files_demographics)])
+    
+    election2022_df = pd.DataFrame(index=
+                            [os.path.splitext(filename)[0] for filename in (polling_data_states+polling_files_demographics)],columns=parties)
+
+    
 
     for file in tqdm(polling_data_states):
         # if file != "female.csv":
         #     continue
         polling_data = pd.read_csv(f"polling_data/{file}").apply(fixtpp,axis=1)
         election_day = polling_data[polling_data["Pollster"]=="Election"].iloc[0].copy()
+        election2022_df.loc[os.path.splitext(file)[0]] = election_day
         polling_data = polling_data.drop(0,axis=0) # Drop the election day data
         polling_data = polling_data.reset_index()
 
@@ -197,8 +198,8 @@ if __name__ == "__main__":
             Sadjusted = [(H @ Padj @ H.T).item() for Padj in Padjusted][::-1]
 
 
-            out_df.loc[os.path.splitext(file)[0],party]=Yadjusted[-1]
-            out_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[-1])
+            swings2025_df.loc[os.path.splitext(file)[0],party]=Yadjusted[-1]
+            swings2025_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[-1])
     
     for file in tqdm(polling_files_demographics):
         # if file != "noreligion.csv":
@@ -266,11 +267,20 @@ if __name__ == "__main__":
 
 
 
-            out_df.loc[os.path.splitext(file)[0],party]=(Yadjusted[election_date]-Yadjusted[-1])
-            out_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[election_date]+Sadjusted[-1])
+            swings2025_df.loc[os.path.splitext(file)[0],party]=(Yadjusted[-1]-Yadjusted[election_date])
+            swings2025_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[election_date]+Sadjusted[-1])
+            election2022_df.loc[os.path.splitext(file)[0],party]=(Yadjusted[election_date])
+            election2022_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[election_date])
     
-    out_df.to_csv("polling_estimates2025.csv")
-    print(out_df)
+    swings2025_df.index.name = "demographic"
+    swings2025_df = swings2025_df.drop(['UND','UND_std'],axis=1)
+    swings2025_df.to_csv("processed/polling_estimates2025.csv")
+
+    election2022_df.index.name = "demographic"
+    election2022_df = election2022_df.drop(['UND','UND_std'],axis=1)
+    election2022_df.to_csv("processed/election2022estimates.csv")
+
+    print(swings2025_df)
 
     # plot_ts = np.where(ts>=np.datetime64("2022-05-22"))[0]
 
