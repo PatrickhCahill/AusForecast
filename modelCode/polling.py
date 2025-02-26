@@ -114,6 +114,19 @@ def estimate_Q(X:list,F:np.array):
     Qest = sum(residual @ residual.T for residual in residuals)/len(residuals)
     return Qest
 
+def compute_y_std(row):
+    x_values = np.array([row[x] for x in parties_modelled])
+    y_values = np.array([row[f"{x}_std"] for x in parties_modelled])
+
+    return np.mean(y_values) / np.mean(np.abs(x_values)) * np.abs(row['OTH'])
+
+def normalise(row):
+    outrow = row.copy()
+    primary_parties = ["ALP","LNC","GRN","PHON","OTH"]
+    outrow[primary_parties] = outrow[primary_parties] / outrow[primary_parties].sum()
+    outrow[["ALP 2pp","L-NP 2pp"]] = outrow[["ALP 2pp","L-NP 2pp"]] / outrow[["ALP 2pp","L-NP 2pp"]].sum()
+    return outrow
+
 if __name__ == "__main__":
     abspath = os.path.abspath(__file__)
     dname = os.path.dirname(abspath)
@@ -125,9 +138,13 @@ if __name__ == "__main__":
     
 
     parties = ['ALP', 'LNC', 'GRN', 'PHON', 'UND', 'ALP 2pp', 'L-NP 2pp']
+    parties_modelled = ['ALP', 'LNC', 'GRN', 'PHON']
     swings2025_df = pd.DataFrame(index=
                         [os.path.splitext(filename)[0] for filename in (polling_data_states+polling_files_demographics)])
+    election2025_df = pd.DataFrame(index=
+                        [os.path.splitext(filename)[0] for filename in (polling_data_states+polling_files_demographics)])
     
+
     election2022_df = pd.DataFrame(index=
                             [os.path.splitext(filename)[0] for filename in (polling_data_states+polling_files_demographics)],columns=parties)
 
@@ -201,6 +218,8 @@ if __name__ == "__main__":
             swings2025_df.loc[os.path.splitext(file)[0],party]=Yadjusted[-1]
             swings2025_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[-1])
     
+            election2025_df.loc[os.path.splitext(file)[0],party]=Yadjusted[-1]+ election_day[party]
+            election2025_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[-1])
     for file in tqdm(polling_files_demographics):
         # if file != "noreligion.csv":
         #     continue
@@ -269,18 +288,37 @@ if __name__ == "__main__":
 
             swings2025_df.loc[os.path.splitext(file)[0],party]=(Yadjusted[-1]-Yadjusted[election_date])
             swings2025_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[election_date]+Sadjusted[-1])
+
+            election2025_df.loc[os.path.splitext(file)[0],party]=(Yadjusted[-1])
+            election2025_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[-1])
+
             election2022_df.loc[os.path.splitext(file)[0],party]=(Yadjusted[election_date])
             election2022_df.loc[os.path.splitext(file)[0],f"{party}_std"]=np.sqrt(Sadjusted[election_date])
     
     swings2025_df.index.name = "demographic"
     swings2025_df = swings2025_df.drop(['UND','UND_std'],axis=1)
-    swings2025_df.to_csv("processed/polling_estimates2025.csv")
+    swings2025_df['OTH'] = - swings2025_df[parties_modelled].sum(axis=1)
+    swings2025_df['OTH_std'] = swings2025_df.apply(compute_y_std,axis=1)
+    swings2025_df = swings2025_df.reindex(['ALP','ALP_std','LNC','LNC_std','GRN','GRN_std','PHON','PHON_std','OTH','OTH_std','ALP 2pp','ALP 2pp_std', 'L-NP 2pp', 'L-NP 2pp_std'],axis=1)
+    swings2025_df.to_csv("processed/polling_estimates2025swings.csv")
+
+    election2025_df.index.name = "demographic"
+    election2025_df = election2025_df.drop(['UND','UND_std'],axis=1)
+    election2025_df['OTH'] = 1 - election2025_df[parties_modelled].sum(axis=1)
+    election2025_df['OTH_std'] = election2025_df.apply(compute_y_std,axis=1)
+    election2025_df = election2025_df.reindex(['ALP','ALP_std','LNC','LNC_std','GRN','GRN_std','PHON','PHON_std','OTH','OTH_std','ALP 2pp','ALP 2pp_std', 'L-NP 2pp', 'L-NP 2pp_std'],axis=1)
+    election2025_df.to_csv("processed/polling_estimates2025.csv")
+
 
     election2022_df.index.name = "demographic"
     election2022_df = election2022_df.drop(['UND','UND_std'],axis=1)
+    election2022_df['OTH'] =  1 - election2022_df[parties_modelled].sum(axis=1)
+    election2022_df['OTH_std'] = election2022_df.apply(compute_y_std,axis=1)
+    election2022_df = election2022_df.apply(normalise,axis=1)
+    election2022_df = election2022_df.reindex(['ALP','ALP_std','LNC','LNC_std','GRN','GRN_std','PHON','PHON_std','OTH','OTH_std','ALP 2pp','ALP 2pp_std', 'L-NP 2pp', 'L-NP 2pp_std'],axis=1)
     election2022_df.to_csv("processed/election2022estimates.csv")
 
-    print(swings2025_df)
+    print(election2025_df)
 
     # plot_ts = np.where(ts>=np.datetime64("2022-05-22"))[0]
 
