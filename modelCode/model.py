@@ -20,8 +20,11 @@ os.chdir(dname)
 seat_demographics = pd.read_csv("processed/pct_demographic_facts.csv",index_col="Unnamed: 0")
 seat_demographics.index.name = "DivisionNm"
 
-polling_estimates = pd.read_csv("processed/adjusted2025.csv",index_col="Unnamed: 0")
+polling_estimates = pd.read_csv("processed/polling_estimates2025.csv",index_col="Unnamed: 0")
 polling_estimates.index.name = "Party"
+polling_swings = pd.read_csv("processed/polling_estimates2025swings.csv",index_col="Unnamed: 0")
+polling_estimates.index.name = "Party"
+
 
 polling_mean = polling_estimates.loc[["ALP", "LNC", "GRN", "PHON", "OTH", "ALP 2pp", "L-NP 2pp"]].copy()
 polling_std = polling_estimates.loc[["ALP_std", "LNC_std", "GRN_std", "PHON_std", "OTH_std", "ALP 2pp_std", "L-NP 2pp_std"]].copy()
