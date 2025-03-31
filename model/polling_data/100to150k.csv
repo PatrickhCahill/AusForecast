@@ -1,0 +1,13 @@
+﻿Start Date,End Date,Pollster,Mode,Scope,Sample,ALP,LNC,GRN,PHON,UND,ALP 2pp,L-NP 2pp,ALP r/a,L-NP r/a,UND r/a
+"Jul 27, 2022","Dec 3, 2022",Newspoll/YouGov,Online,$100k-$150k,"1,093",38,36,11,6,,54,46,,,
+"Feb 1, 2023","Apr 3, 2023",Newspoll/YouGov,Online,$100k-$150k,901,40,32,11,6,,57,43,,,
+"Sep 25, 2023","Sep 29, 2023",YouGov,Online,$100k-$150k,295,33,37,16,6,,,,,,
+"Oct 6, 2023","Oct 10, 2023",YouGov,Online,$100k-$150k,289,33,37,16,6,,,,,,
+"Aug 28, 2023","Oct 12, 2023",Newspoll/Pyxis,Online,$100k-$150k,901,36,37,14,5,,54,46,,,
+"Nov 10, 2023","Nov 14, 2023",YouGov,Online,$100k-$150k,289,32,36,13,6,,,,,,
+"Dec 1, 2023","Dec 5, 2023",YouGov,Online,$100k-$150k,120,25,44,12,10,,,,,,
+"Oct 31, 2023","Dec 15, 2023",Newspoll/Pyxis,Online,$100k-$150k,692,35,34,17,6,,55,45,,,
+"Jan 31, 2024","Mar 22, 2024",Newspoll/Pyxis,Online,$100k-$150k,699,34,36,15,6,,53,47,,,
+"Apr 15, 2024","Jun 7, 2024",Newspoll/Pyxis,Online,$100k-$150k,297,31,40,13,7,,49,51,,,
+"Jul 15, 2024","Sep 20, 2024",Newspoll/Pyxis,Online,$100k-$150k,954,31,36,15,7,,52,48,,,
+"Oct 7, 2024","Dec 6, 2024",Newspoll/Pyxis,Online,$100k-$150k,715,33,37,12,6,,52,48,,,

@@ -107,7 +107,7 @@ def distribute(y,M, tol=1e-4, max_iter_sub=1000):
     print("WARNING: Did not converge")
     return set_eliminated(yhat,valid_parties, party_i)
 
-def simulate_anneal(M0:np.array, Ydist:pd.DataFrame, Ytcp:pd.DataFrame, T=0.9, alpha=0.9, w=0.5, max_epoch=100):
+def simulate_anneal(M0:np.array, Ydist:pd.DataFrame, Ytcp:pd.DataFrame, T=0.9, alpha=0.9, w=0.5, max_epoch=10):
     def accept(current_err, prev_err,T):
         if current_err < prev_err:
             return True

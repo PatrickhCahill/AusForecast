@@ -4,7 +4,7 @@ Generally this is stripping the raw AEC data down to only required rows and then
 '''
 
 # Globals
-MODELED_PARTES = ['UAP', 'ONP', 'ALP', 'GRN', 'LNP', 'IND', 'TEAL', 'OTH']
+MODELED_PARTES = ['ONP', 'ALP', 'GRN', 'LNP', 'IND', 'TEAL', 'OTH']
 
 
 # Imports
@@ -33,7 +33,7 @@ def keeprows_distribution(vote_df:pd.DataFrame):
     vote_dfout = vote_df[(vote_df["CalculationType"] == "Transfer Percent") & (vote_df["CountNum"] > 0) & (vote_df["PartyAb"] != "Informal")].copy()
     return vote_dfout
 
-def handle_teals(vote_df:pd.DataFrame, teals_path="teals2022.csv"):
+def handle_teals(vote_df:pd.DataFrame, teals_path="processed/teals2022.csv"):
     '''Loop over each row and where that is a teal candidate, adjust their partyAb accordingly'''
     teal_candidates = pd.read_csv(teals_path)
     outvote_df = vote_df.copy()
@@ -48,7 +48,6 @@ def handle_teals(vote_df:pd.DataFrame, teals_path="teals2022.csv"):
 
 def handle_party_names(vote_df:pd.DataFrame):
     party_mappers = {
-        'UAPP':'UAP', 
         'ON':'ONP',
         'ALP':'ALP', 
         'IND':'IND', 
